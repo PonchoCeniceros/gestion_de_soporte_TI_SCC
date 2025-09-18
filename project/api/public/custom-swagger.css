@@ -1,0 +1,69 @@
+/* Tema Claro para Swagger UI */
+
+.swagger-ui .topbar {
+    display: none;
+}
+
+.swagger-ui .topbar {
+    background-color: #ffffff;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.swagger-ui .topbar .download-url-wrapper input[type=text] {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.swagger-ui .topbar .download-url-wrapper .download-url-button {
+    background-color: #007bff;
+}
+
+.swagger-ui {
+    background-color: #ffffff;
+    color: #333;
+}
+
+.swagger-ui .info .title {
+    color: #333;
+}
+
+.swagger-ui .info .description, .swagger-ui .info .base-url {
+    color: #555;
+}
+
+.swagger-ui .opblock-tag {
+    color: #007bff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.swagger-ui .opblock {
+    background-color: #f9f9f9;
+    border-color: #e0e0e0;
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+    background-color: #007bff;
+}
+
+.swagger-ui .opblock .opblock-summary-path {
+    color: #333;
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+    color: #777;
+}
+
+.swagger-ui .btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.swagger-ui .btn:hover {
+    background-color: #0056b3;
+}
+
+.swagger-ui .response-col_status {
+    color: #333;
+}

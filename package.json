@@ -1,0 +1,17 @@
+{
+  "name": "clean-monorepo",
+  "private": true,
+  "workspaces": [
+    "project/*"
+  ],
+  "scripts": {
+    "dev": "concurrently --names 'Api,App' 'yarn workspace api dev' 'yarn workspace app dev'",
+    "build": "yarn workspaces run build",
+    "start:backend": "yarn workspace api start",
+    "start:frontend": "yarn workspace app preview"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,29 @@
+// dominio
+// aplicación
+// infraestructura
+import './main.css'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// ui
+import LoginForm from './features/auth/components/LoginForm';
+import Sidebar from './components/sidebar';
+import TicketManagementPage from './pages/TicketManagementPage';
+import ClientsManagementPage from './pages/ClientsManagementPage';
+
+/**
+ *
+ */
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/" element={<Sidebar />}>
+          <Route path="tickets" element={<TicketManagementPage />} />
+          <Route path="clients" element={<ClientsManagementPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </StrictMode>,
+);

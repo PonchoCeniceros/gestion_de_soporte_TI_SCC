@@ -1,0 +1,23 @@
+  {
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@/*": [
+          "src/*"
+        ]
+      },
+      "target": "ES6",
+      "module": "CommonJS",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./dist"
+    },
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }

@@ -19,6 +19,7 @@ export default function TicketForm() {
     clientEmail: '',
     service: '',
   });
+  const [attachment, setAttachment] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -53,6 +54,12 @@ export default function TicketForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setAttachment(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -66,11 +73,22 @@ export default function TicketForm() {
     try {
       const response = await ticketApi.create({
         ...formData,
-        status: 'abierto' // default status
       });
 
-      if (response.isOk) {
-        alert('Ticket creado exitosamente!');
+      if (response.isOk && response.data) {
+        const newTicketId = response.data._id;
+        if (attachment) {
+          const attachmentResponse = await ticketApi.addAttachment(newTicketId, attachment);
+          if (!attachmentResponse.isOk) {
+            // Handle attachment error, maybe notify user but still proceed
+            console.error('Failed to upload attachment:', attachmentResponse.message);
+            alert('Ticket creado, pero falló la subida del adjunto.');
+          } else {
+            alert('Ticket creado y adjunto subido exitosamente!');
+          }
+        } else {
+          alert('Ticket creado exitosamente!');
+        }
         navigate('/tickets');
       } else {
         setError(response.message);
@@ -193,6 +211,17 @@ export default function TicketForm() {
             onChange={handleChange}
             className={inputStyle}
             required
+          />
+        </div>
+        <div className="md:col-span-2">
+          <label htmlFor="attachment" className={labelStyle}>Adjuntar Imagen</label>
+          <input
+            type="file"
+            name="attachment"
+            id="attachment"
+            onChange={handleFileChange}
+            className={`${inputStyle} p-0 file:mr-4 file:py-2.5 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100`}
+            accept="image/png, image/jpeg, image/gif, image/webp"
           />
         </div>
       </div>

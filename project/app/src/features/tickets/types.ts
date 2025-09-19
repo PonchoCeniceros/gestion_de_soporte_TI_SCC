@@ -43,6 +43,7 @@ export interface Ticket {
   statusHistory: StatusHistory[];
   createdAt: string;
   updatedAt: string;
+  attachments?: string[];
 }
 
 export interface Client {

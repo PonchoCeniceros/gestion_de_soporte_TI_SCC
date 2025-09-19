@@ -50,6 +50,7 @@ export default interface Ticket {
   service: Types.ObjectId; // Referencia a un Servicio
   assignedTo?: AssignedUser; // Referencia a un Usuario
   statusHistory: StatusHistory[];
+  attachments?: string[];
   createdAt: Date;
   updatedAt: Date;
 }

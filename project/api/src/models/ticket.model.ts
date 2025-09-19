@@ -23,6 +23,7 @@ const ticketSchema = new Schema<TicketModel>({
     name: { type: String }
   },
   statusHistory: [statusHistorySchema],
+  attachments: [{ type: String }],
 }, { timestamps: true }); // timestamps agrega createdAt y updatedAt
 
 // Middleware para agregar el estado inicial al historial antes de guardar

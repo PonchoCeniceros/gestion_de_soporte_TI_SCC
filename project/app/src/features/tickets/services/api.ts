@@ -12,6 +12,7 @@ export interface TicketApiService {
   create: (ticket: Omit<Ticket, '_id' | 'createdAt' | 'updatedAt' | 'client' | 'service' | 'status' | 'statusHistory' | 'assignedTo'> & { client: string, service: string }) => Promise<ApiResponse<Ticket | null>>;
   updateStatus: (id: string, status: TicketStatus) => Promise<ApiResponse<Ticket | null>>;
   assignTicket: (id: string, userId: string) => Promise<ApiResponse<Ticket | null>>;
+  addAttachment: (id: string, file: File) => Promise<ApiResponse<Ticket | null>>;
 }
 
 export default function TicketApiAdapter(): TicketApiService {
@@ -148,10 +149,43 @@ export default function TicketApiAdapter(): TicketApiService {
     }
   }
 
+  const addAttachment = async (id: string, file: File): Promise<ApiResponse<Ticket | null>> => {
+    try {
+      const formData = new FormData();
+      formData.append('attachment', file);
+
+      const config: RequestInit = {
+        method: "POST",
+        body: formData,
+      };
+
+      const result = await fetch(
+        `${import.meta.env.VITE_API_URL}/tickets/${id}/attachments`,
+        config
+      );
+
+      if (!result.ok) {
+        return {
+          isOk: false,
+          message: `Error ${result.status}: ${result.statusText}`,
+        };
+      }
+
+      const resp: ApiResponse<Ticket | null> = await result.json();
+      return resp;
+    } catch (error) {
+      return {
+        isOk: false,
+        message: `Error fetching data: ${(error as Error).message}`,
+      };
+    }
+  }
+
   return {
       getAll,
       create,
       updateStatus,
-      assignTicket
+      assignTicket,
+      addAttachment
   }
 }

@@ -9,6 +9,8 @@ interface TicketDetailModalProps {
 const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticket, onClose }) => {
   if (!ticket) return null;
 
+  const apiUrl = import.meta.env.VITE_API_URL.replace(/\/v1$/, ''); // Remove /v1 from the end
+
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" onClick={onClose}>
       <div
@@ -54,6 +56,23 @@ const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticket, onClose }
             <p className="text-sm text-gray-500 text-left mt-2">
               <strong>Última actualización:</strong> {new Date(ticket.updatedAt).toLocaleString()}
             </p>
+
+            {ticket.attachments && ticket.attachments.length > 0 && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-500 text-left font-bold">Adjuntos:</p>
+                <div className="mt-2 flex flex-wrap gap-4">
+                  {ticket.attachments.map((attachment, index) => (
+                    <a key={index} href={`${apiUrl}${attachment}`} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={`${apiUrl}${attachment}`}
+                        alt={`Adjunto ${index + 1}`}
+                        className="h-24 w-24 object-cover rounded-md border border-gray-300 hover:border-blue-500 transition-all"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="items-center px-4 py-3">
             <button

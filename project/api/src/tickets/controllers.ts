@@ -3,6 +3,9 @@ import { ticketModel } from '../models/ticket.model';
 import { userModel } from '../models/user.model';
 import ApiResponse from '../domain/apiResponse';
 import { TicketStatus } from '../domain/ticket';
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
 
 // Extend the Request interface to include userId
 declare global {
@@ -222,6 +225,66 @@ export async function assignTicket(req: Request, res: Response) {
     res.status(500).json({
       isOk: false,
       message: 'Error al asignar el ticket.',
+      data: null,
+    } as ApiResponse<null>);
+  }
+}
+
+// Añadir un adjunto a un ticket
+export async function addAttachment(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const ticket = await ticketModel.findById(id);
+
+    if (!ticket) {
+      return res.status(404).json({
+        isOk: false,
+        message: 'Ticket no encontrado.',
+        data: null,
+      } as ApiResponse<null>);
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        isOk: false,
+        message: 'No se ha subido ningún archivo.',
+        data: null,
+      } as ApiResponse<null>);
+    }
+
+    const originalPath = req.file.path;
+    const fileExtension = path.extname(req.file.originalname);
+    const compressedFilename = req.file.filename.replace(fileExtension, '-compressed.webp');
+    const compressedPath = path.join('public/uploads', compressedFilename);
+
+    // Comprimir la imagen usando sharp
+    await sharp(originalPath)
+      .webp({ quality: 80 }) // Comprimir a WebP con 80% de calidad
+      .toFile(compressedPath);
+
+    // Eliminar el archivo original subido por multer
+    fs.unlinkSync(originalPath);
+
+    // Añadir la ruta del archivo comprimido a los adjuntos del ticket
+    // Guardamos la ruta relativa para que sea accesible desde el frontend
+    const relativePath = `/uploads/${compressedFilename}`;
+    ticket.attachments!.push(relativePath);
+
+    await ticket.save();
+
+    const populatedTicket = await ticket.populate(['client', 'service', 'assignedTo']);
+
+    res.status(200).json({
+      isOk: true,
+      message: 'Adjunto añadido exitosamente.',
+      data: populatedTicket,
+    } as ApiResponse<any>);
+
+  } catch (error) {
+    console.error('Error al añadir el adjunto:', error);
+    res.status(500).json({
+      isOk: false,
+      message: 'Error al añadir el adjunto.',
       data: null,
     } as ApiResponse<null>);
   }

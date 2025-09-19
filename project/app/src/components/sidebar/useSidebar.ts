@@ -11,7 +11,7 @@ import useSession from "../../store/session";
 export default function useSidebar() {
   const location = useLocation();
   const { isAuthenticated, session, signOut } = useSession();
-  const [isMinimized, setIsMinimized] = useState(true);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect((): void => {
     if (session) {

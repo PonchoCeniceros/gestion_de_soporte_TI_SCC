@@ -18,4 +18,6 @@ export interface Session {
   token: string;
   expiresAt: number;
   role: Role;
+  userId: string;
+  userName: string;
 }

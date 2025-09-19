@@ -10,6 +10,7 @@ import LoginForm from './features/auth/components/LoginForm';
 import Sidebar from './components/sidebar';
 import TicketManagementPage from './pages/TicketManagementPage';
 import ClientsManagementPage from './pages/ClientsManagementPage';
+import CreateTicketPage from './pages/CreateTicketPage';
 
 /**
  *
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/login" element={<LoginForm />} />
         <Route path="/" element={<Sidebar />}>
           <Route path="tickets" element={<TicketManagementPage />} />
+          <Route path="tickets/new" element={<CreateTicketPage />} />
           <Route path="clients" element={<ClientsManagementPage />} />
         </Route>
       </Routes>

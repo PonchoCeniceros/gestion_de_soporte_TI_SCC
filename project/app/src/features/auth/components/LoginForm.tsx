@@ -7,7 +7,7 @@ export default function Login() {
   const [user, handleChange, handleSubmit] = useLogin();
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[linear-gradient(to_right,_#84BCEE,_#AECB92,_#C893DF,_#DA888A,_#E5CC95)]">
+    <div className="flex justify-center items-center h-screen bg-[linear-gradient(45deg,#E5181D,#014F80,#ECAE02)]">
       <div className="absolute t-0 l-0 flex flex-col w-full md:w-1/2 xl:w-2/5 2xl:w-2/5 3xl:w-1/3 mx-auto p-8 md:p-10 2xl:p-12 3xl:p-14 bg-quaternary rounded-2xl border border-secondary shadow-xl">
         <div className="flex flex-col justify-center mx-auto items-center gap-3 pb-4 pt-4">
           {/* <Logo2cap /> */}

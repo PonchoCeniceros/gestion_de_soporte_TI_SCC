@@ -1,13 +1,13 @@
-// dominio
 import Session from '../domain/session';
 import ApiResponse from '../domain/apiResponse';
 import { JwtPayload } from '../domain/jwtPayload';
 // aplicación
-import { userModel } from '../models/user.model';
+import { userModel, UserModel } from '../models/user.model'; // Import UserModel
 // infraestructura
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
+import { Types } from 'mongoose'; // Import Types
 
 /**
  *
@@ -51,6 +51,9 @@ export async function registerEndpoint(req: Request, res: Response) {
 /**
  *
  */
+/**
+ *
+ */
 export async function loginEndpoint(req: Request, res: Response) {
   try {
     const secretKey = process.env.SECRET_KEY;
@@ -79,7 +82,7 @@ export async function loginEndpoint(req: Request, res: Response) {
       res.status(401).json({ message: 'Error de autenticación: credenciales inválidas' });
       return;
     }
-    const token = jwt.sign({ id: user._id, role: user.role }, secretKey, { expiresIn: '1m' });
+    const token = jwt.sign({ id: user._id, role: user.role }, secretKey, { expiresIn: '1h' });
     const decoded = jwt.decode(token) as JwtPayload;
 
     if (!decoded) {
@@ -90,7 +93,9 @@ export async function loginEndpoint(req: Request, res: Response) {
     const session: Session = {
       token: token,
       role: user.role,
-      expiresAt: decoded.exp
+      expiresAt: decoded.exp,
+      userId: user._id!.toString(),
+      userName: user.name,
     };
 
     res.status(200).json({

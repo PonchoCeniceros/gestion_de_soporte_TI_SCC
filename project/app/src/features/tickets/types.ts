@@ -17,6 +17,17 @@ export enum TicketPriority {
   URGENT = 'urgente',
 }
 
+export interface StatusHistory {
+    status: TicketStatus;
+    changedAt: string;
+}
+
+export interface User {
+    _id: string;
+    name: string;
+    role: string;
+}
+
 export interface Ticket {
   _id: string;
   title: string;
@@ -25,6 +36,8 @@ export interface Ticket {
   priority: TicketPriority;
   client: Client;
   service: Service;
+  assignedTo?: User;
+  statusHistory: StatusHistory[];
   createdAt: string;
   updatedAt: string;
 }
@@ -40,4 +53,11 @@ export interface Service {
   _id: string;
   name: string;
   description: string;
+}
+
+export interface PaginatedTickets {
+    tickets: Ticket[];
+    total: number;
+    totalPages: number;
+    currentPage: number;
 }

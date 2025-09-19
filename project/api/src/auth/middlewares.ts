@@ -2,6 +2,15 @@ import jwt from 'jsonwebtoken';
 import { Role } from '../domain/role';
 import { Request, Response, NextFunction } from 'express';
 
+// Extend the Request interface to include userId
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
+}
+
 /**
  *
  */
@@ -21,6 +30,7 @@ export function authUserMiddleware(req: Request, res: Response, next: NextFuncti
       if (err || decoded.role !== Role.USER) {
         res.status(403).json({ message: 'Acceso denegado' });
       } else {
+        req.userId = decoded.id; // Attach user ID to request
         next();
       }
     });
@@ -41,6 +51,7 @@ export function authAdminMiddleware(req: Request, res: Response, next: NextFunct
       if (err || decoded.role !== Role.ADMIN) {
         res.status(403).json({ message: 'Acceso denegado' });
       } else {
+        req.userId = decoded.id; // Attach user ID to request
         next();
       }
     });

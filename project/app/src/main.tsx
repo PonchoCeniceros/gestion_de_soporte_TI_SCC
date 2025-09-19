@@ -9,8 +9,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from './features/auth/components/LoginForm';
 import Sidebar from './components/sidebar';
 import TicketManagementPage from './pages/TicketManagementPage';
-import ClientsManagementPage from './pages/ClientsManagementPage';
+// import ClientsManagementPage from './pages/ClientsManagementPage';
 import CreateTicketPage from './pages/CreateTicketPage';
+import CreatingTicketPage from './pages/CreatingTicketPage';
 
 /**
  *
@@ -20,10 +21,11 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/solicitudes" element={<CreatingTicketPage />} />
         <Route path="/" element={<Sidebar />}>
           <Route path="tickets" element={<TicketManagementPage />} />
           <Route path="tickets/new" element={<CreateTicketPage />} />
-          <Route path="clients" element={<ClientsManagementPage />} />
+          {/* <Route path="clients" element={<ClientsManagementPage />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

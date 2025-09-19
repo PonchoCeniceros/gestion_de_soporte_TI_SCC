@@ -12,6 +12,7 @@ export default function Login() {
         <div className="flex flex-col justify-center mx-auto items-center gap-3 pb-4 pt-4">
           {/* <Logo2cap /> */}
           <h1 className="text-3xl text-center font-bold text-black my-auto">{import.meta.env.VITE_TITLE}</h1>
+          <h1 className="text-xl text-center font-bold text-black my-auto">{import.meta.env.VITE_CORP}</h1>
         </div>
         <form className="flex flex-col" onSubmit={handleSubmit}>
           <div className="pb-2">

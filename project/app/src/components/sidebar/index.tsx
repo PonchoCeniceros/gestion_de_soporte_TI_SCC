@@ -1,6 +1,6 @@
 import useSidebar from "./useSidebar";
 import { Link, Outlet, Navigate } from "react-router-dom";
-import { FiChevronLeft, FiChevronRight, FiTag, FiUsers, FiGrid } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiTag, FiGrid } from 'react-icons/fi'; // , FiUsers
 
 /**
  *
@@ -9,7 +9,7 @@ export default function Sidebar() {
   const { isAuthenticated, isMinimized, toggleSidebar } = useSidebar();
 
   const headerStyle = 'px-4 border-b border-baseLight pb-1 pt-4';
-  const sectionStyle = 'pl-10 pr-4 py-[1px] font-light text-xs hover:text-xs hover:bg-baseLight hover:text-baseDark';
+  const sectionStyle = 'pl-4 pr-4 py-[1px] font-light text-xs hover:text-xs hover:bg-baseLight hover:text-baseDark';
   const iconStyle = 'inline-block w-6';
   const logoutStyle = 'flex w-full pl-6 pr-4 py-1 font-bold hover:text-sm hover:bg-baseLight hover:text-baseDark';
 
@@ -31,7 +31,7 @@ export default function Sidebar() {
               {isMinimized ? <FiTag className={iconStyle} /> : 'Gestión de Tickets'}
             </Link>
             <Link className={sectionStyle} to="/clients">
-              {isMinimized ? <FiUsers className={iconStyle} /> : 'Clientes'}
+              {/* isMinimized ? <FiUsers className={iconStyle} /> : 'Clientes' */}
             </Link>
           </nav>
         </div>

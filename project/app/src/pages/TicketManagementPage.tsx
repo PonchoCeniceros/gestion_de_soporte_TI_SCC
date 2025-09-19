@@ -135,22 +135,22 @@ export default function TicketManagementPage() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Gestión de Tickets</h1>
         <Link to="/tickets/new">
-          <button className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+          <button className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl">
             Crear Ticket
           </button>
         </Link>
       </div>
 
       {/* Filter Controls */}
-      <div className="flex items-center space-x-4 mb-4 p-4 bg-white rounded-lg shadow">
+      <div className="flex items-center space-x-4 mb-4 p-4 bg-base rounded-lg border border-black">
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700">Filtrar por Estado</label>
+          <label htmlFor="status" className="block text-sm font-bold text-gray-700">Filtrar por Estado</label>
           <select
             id="status"
             name="status"
             value={filters.status}
             onChange={handleFilterChange}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-3 pr-10 py-2 bg-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
             <option value="">Todos</option>
             <option value={TicketStatus.OPEN}>Abierto</option>
@@ -159,13 +159,13 @@ export default function TicketManagementPage() {
           </select>
         </div>
         <div>
-          <label htmlFor="service" className="block text-sm font-medium text-gray-700">Filtrar por Servicio</label>
+          <label htmlFor="service" className="block text-sm font-bold text-gray-700">Filtrar por Servicio</label>
           <select
             id="service"
             name="service"
             value={filters.service}
             onChange={handleFilterChange}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-3 pr-10 py-2 bg-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
             <option value="">Todos</option>
             {services.map(service => (
@@ -174,19 +174,19 @@ export default function TicketManagementPage() {
           </select>
         </div>
         <div>
-          <label htmlFor="date" className="block text-sm font-medium text-gray-700">Filtrar por Fecha</label>
+          <label htmlFor="date" className="block text-sm font-bold text-gray-700">Filtrar por Fecha</label>
           <input
             type="date"
             id="date"
             name="date"
             value={filters.date}
             onChange={handleFilterChange}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-3 pr-10 py-2 bg-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           />
         </div>
       </div>
 
-      <div className="rounded-xl bg-base flex flex-col flex-1 w-full p-4 overflow-hidden">
+      <div className="rounded-xl bg-base flex flex-col flex-1 w-full p-4 overflow-hidden border border-black">
         {isLoading && <p className="text-center">Cargando...</p>}
         {error && <p className="text-red-500 text-center">{error}</p>}
         {!isLoading && !error && (

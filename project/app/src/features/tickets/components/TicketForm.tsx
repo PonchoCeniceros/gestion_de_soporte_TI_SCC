@@ -58,15 +58,15 @@ export default function TicketForm() {
     setError(null);
 
     if (!formData.client || !formData.service) {
-        setError("Por favor, seleccione un cliente y un servicio.");
-        return;
+      setError("Por favor, seleccione un cliente y un servicio.");
+      return;
     }
 
     const ticketApi = TicketApiAdapter();
     try {
       const response = await ticketApi.create({
-          ...formData,
-          status: 'abierto' // default status
+        ...formData,
+        status: 'abierto' // default status
       });
 
       if (response.isOk) {
@@ -88,7 +88,7 @@ export default function TicketForm() {
       {error && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">{error}</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="title" className={labelStyle}>Título</label>
+          <label htmlFor="title" className={labelStyle}>Solicitud</label>
           <input
             type="text"
             name="title"

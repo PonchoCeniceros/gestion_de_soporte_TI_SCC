@@ -7,6 +7,7 @@ import authRouter from './auth/routes';
 import ticketsRouter from './tickets/routes';
 import clientsRouter from './clients/routes';
 import servicesRouter from './services/routes';
+import usersRouter from './users/routes'; // Importar el nuevo router de usuarios
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
@@ -70,7 +71,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./src/auth/routes.ts', './src/tickets/routes.ts', './src/clients/routes.ts', './src/services/routes.ts'],
+  apis: ['./src/auth/routes.ts', './src/tickets/routes.ts', './src/clients/routes.ts', './src/services/routes.ts', './src/users/routes.ts'], // Añadir rutas de usuarios a Swagger
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -91,5 +92,6 @@ api.use(`/${process.env.VERSION}/auth`, authRouter);
 api.use(`/${process.env.VERSION}/tickets`, ticketsRouter);
 api.use(`/${process.env.VERSION}/clients`, clientsRouter);
 api.use(`/${process.env.VERSION}/services`, servicesRouter);
+api.use(`/${process.env.VERSION}/users`, usersRouter); // Registrar el nuevo router de usuarios
 
 export default api;

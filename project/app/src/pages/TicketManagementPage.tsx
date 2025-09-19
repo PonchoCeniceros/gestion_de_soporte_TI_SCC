@@ -88,14 +88,10 @@ export default function TicketManagementPage() {
     }
   };
 
-  const handleAssignToMe = async (ticketId: string) => {
-    if (!session?.userId) {
-      setError('No hay usuario logueado para asignar.');
-      return;
-    }
+  const handleAssign = async (ticketId: string, userId: string) => {
     setError(null);
     try {
-      const response = await ticketApi.assignTicket(ticketId, session.userId);
+      const response = await ticketApi.assignTicket(ticketId, userId);
       if (response.isOk && response.data) {
         setTickets(prevTickets =>
           prevTickets.map(ticket =>
@@ -195,7 +191,7 @@ export default function TicketManagementPage() {
               <TicketsTable
                 tickets={tickets}
                 onStatusChange={handleStatusChange}
-                onAssign={handleAssignToMe}
+                onAssign={handleAssign}
                 onTicketClick={handleTicketClick}
               />
             </div>

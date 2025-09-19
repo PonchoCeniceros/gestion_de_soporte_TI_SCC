@@ -43,13 +43,19 @@ export default function TicketsTable({ tickets, onStatusChange, onAssign, onTick
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {tickets.map((ticket) => (
-            <tr key={ticket._id} onClick={() => onTicketClick(ticket)} className="cursor-pointer hover:bg-gray-100">
+            <tr key={ticket._id}>
               <td className={tableCellStyle}>{ticket.title}</td>
               <td className={tableCellStyle}>{ticket.client.name}</td>
               <td className={tableCellStyle}>{ticket.assignedTo ? ticket.assignedTo.name : 'Sin asignar'}</td>
               <td className={tableCellStyle}>{ticket.status}</td>
               <td className={tableCellStyle}>{getLastStatusUpdate(ticket)}</td>
               <td className={`${tableCellStyle} space-x-2`}>
+                <button
+                  onClick={() => onTicketClick(ticket)}
+                  className="px-3 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded-md hover:bg-blue-200"
+                >
+                  Detalles
+                </button>
                 {
                   ticket.assignedTo && (
                     <select

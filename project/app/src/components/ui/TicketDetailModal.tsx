@@ -34,6 +34,15 @@ const TicketDetailModal: React.FC<TicketDetailModalProps> = ({ ticket, onClose }
               <strong>Cliente:</strong> {ticket.client.name}
             </p>
             <p className="text-sm text-gray-500 text-left mt-2">
+              <strong>Nombre del Solicitante:</strong> {ticket.clientName}
+            </p>
+            <p className="text-sm text-gray-500 text-left mt-2">
+              <strong>Teléfono del Solicitante:</strong> {ticket.clientPhone}
+            </p>
+            <p className="text-sm text-gray-500 text-left mt-2">
+              <strong>Correo del Solicitante:</strong> {ticket.clientEmail}
+            </p>
+            <p className="text-sm text-gray-500 text-left mt-2">
               <strong>Servicio:</strong> {ticket.service.name}
             </p>
             <p className="text-sm text-gray-500 text-left mt-2">

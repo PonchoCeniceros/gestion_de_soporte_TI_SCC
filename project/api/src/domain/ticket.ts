@@ -44,6 +44,9 @@ export default interface Ticket {
   status: TicketStatus;
   priority: TicketPriority;
   client: Types.ObjectId; // Referencia a un Cliente
+  clientName: string;
+  clientPhone: string;
+  clientEmail: string;
   service: Types.ObjectId; // Referencia a un Servicio
   assignedTo?: AssignedUser; // Referencia a un Usuario
   statusHistory: StatusHistory[];

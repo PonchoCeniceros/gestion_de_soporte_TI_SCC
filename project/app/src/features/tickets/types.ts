@@ -35,6 +35,9 @@ export interface Ticket {
   status: TicketStatus;
   priority: TicketPriority;
   client: Client;
+  clientName: string;
+  clientPhone: string;
+  clientEmail: string;
   service: Service;
   assignedTo?: User;
   statusHistory: StatusHistory[];

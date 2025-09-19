@@ -15,7 +15,10 @@ const ticketSchema = new Schema<TicketModel>({
   priority: { type: String, required: true, enum: Object.values(TicketPriority), default: TicketPriority.MEDIUM },
   client: { type: Schema.Types.ObjectId, ref: 'Client', required: true },
   service: { type: Schema.Types.ObjectId, ref: 'Service', required: true },
-  assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },
+  assignedTo: {
+    _id: { type: Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String }
+  },
   statusHistory: [statusHistorySchema],
 }, { timestamps: true }); // timestamps agrega createdAt y updatedAt
 

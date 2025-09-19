@@ -28,6 +28,14 @@ export interface StatusHistory {
 }
 
 /**
+ * Representa un usuario asignado a un ticket, incluyendo su ID y nombre.
+ */
+export interface AssignedUser {
+  _id: Types.ObjectId;
+  name: string;
+}
+
+/**
  * Representa un ticket de servicio en el dominio.
  */
 export default interface Ticket {
@@ -37,7 +45,7 @@ export default interface Ticket {
   priority: TicketPriority;
   client: Types.ObjectId; // Referencia a un Cliente
   service: Types.ObjectId; // Referencia a un Servicio
-  assignedTo?: string; // Referencia a un Usuario
+  assignedTo?: AssignedUser; // Referencia a un Usuario
   statusHistory: StatusHistory[];
   createdAt: Date;
   updatedAt: Date;

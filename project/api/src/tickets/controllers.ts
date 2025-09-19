@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ticketModel } from '../models/ticket.model';
+import { userModel } from '../models/user.model';
 import ApiResponse from '../domain/apiResponse';
 import { TicketStatus } from '../domain/ticket';
 
@@ -45,6 +46,7 @@ export async function getAllTickets(req: Request, res: Response) {
     const tickets = await ticketModel.find(filter)
       .populate('client')
       .populate('service')
+      .populate('assignedTo._id', 'name') // Populate assignedTo._id and select only the name field
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber)
       .sort({ createdAt: -1 }); // Sort by newest first
@@ -142,7 +144,10 @@ export async function updateTicketStatus(req: Request, res: Response) {
     // 4. Auto-asignar si la transición es de Abierto a En Progreso y no está asignado
     if (currentStatus === TicketStatus.OPEN && newStatus === TicketStatus.IN_PROGRESS) {
       if (!ticket.assignedTo && currentUserId) {
-        ticket.assignedTo = currentUserId;
+        const currentUser = await userModel.findById(currentUserId);
+        if (currentUser) {
+          ticket.assignedTo = { _id: currentUser._id, name: currentUser.name } as any;
+        }
       }
     }
 
@@ -193,7 +198,16 @@ export async function assignTicket(req: Request, res: Response) {
       } as ApiResponse<null>);
     }
 
-    ticket.assignedTo = userId;
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        isOk: false,
+        message: 'Usuario no encontrado.',
+        data: null,
+      } as ApiResponse<null>);
+    }
+
+    ticket.assignedTo = { _id: user._id, name: user.name } as any;
     await ticket.save();
 
     const populatedTicket = await ticket.populate(['client', 'service', 'assignedTo']);

@@ -4,9 +4,10 @@ interface Props {
   tickets: Ticket[];
   onStatusChange: (id: string, status: TicketStatus) => void;
   onAssign: (ticketId: string) => void; // For now, just "assign to me"
+  onTicketClick: (ticket: Ticket) => void;
 }
 
-export default function TicketsTable({ tickets, onStatusChange, onAssign }: Props) {
+export default function TicketsTable({ tickets, onStatusChange, onAssign, onTicketClick }: Props) {
   const tableHeaderStyle = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
   const tableCellStyle = "px-6 py-4 whitespace-nowrap text-sm text-gray-900";
 
@@ -42,7 +43,7 @@ export default function TicketsTable({ tickets, onStatusChange, onAssign }: Prop
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {tickets.map((ticket) => (
-            <tr key={ticket._id}>
+            <tr key={ticket._id} onClick={() => onTicketClick(ticket)} className="cursor-pointer hover:bg-gray-100">
               <td className={tableCellStyle}>{ticket.title}</td>
               <td className={tableCellStyle}>{ticket.client.name}</td>
               <td className={tableCellStyle}>{ticket.assignedTo ? ticket.assignedTo.name : 'Sin asignar'}</td>

@@ -7,6 +7,7 @@ import ServiceApiAdapter from '../features/services/services/api';
 import TicketsTable from '../features/tickets/components/TicketsTable';
 import Pagination from '../components/ui/Pagination';
 import useSession from '../store/session'; // Import useSession
+import TicketDetailModal from '../components/ui/TicketDetailModal';
 
 export default function TicketManagementPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -22,6 +23,9 @@ export default function TicketManagementPage() {
     date: '',
     service: '',
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   const ticketApi = TicketApiAdapter();
   const serviceApi = ServiceApiAdapter();
@@ -116,6 +120,16 @@ export default function TicketManagementPage() {
     setCurrentPage(page);
   };
 
+  const handleTicketClick = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedTicket(null);
+  };
+
   return (
     <div className='h-screen w-full bg-cover bg-center flex flex-col p-10'>
       <div className="flex justify-between items-center mb-4">
@@ -178,12 +192,19 @@ export default function TicketManagementPage() {
         {!isLoading && !error && (
           <>
             <div className="flex-1 overflow-y-auto">
-              <TicketsTable tickets={tickets} onStatusChange={handleStatusChange} onAssign={handleAssignToMe} />
+              <TicketsTable
+                tickets={tickets}
+                onStatusChange={handleStatusChange}
+                onAssign={handleAssignToMe}
+                onTicketClick={handleTicketClick}
+              />
             </div>
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
           </>
         )}
       </div>
+
+      <TicketDetailModal ticket={selectedTicket} onClose={handleCloseModal} />
     </div>
   );
 }

@@ -34,8 +34,11 @@ yarn.lock
 package-lock.json
 
 # .env
-./project/api/.env
-./project/app/.env
+project/api/.env
+project/app/.env.production
+
+project/app/.env
+project/app/.env.production
 
 # TypeScript build info
 tsconfig.tsbuildinfo

@@ -35,7 +35,7 @@ package-lock.json
 
 # .env
 project/api/.env
-project/app/.env.production
+project/api/.env.production
 
 project/app/.env
 project/app/.env.production

@@ -10,6 +10,7 @@ import servicesRouter from './services/routes';
 import usersRouter from './users/routes'; // Importar el nuevo router de usuarios
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import path from 'path';
 
 // Cargar variables de entorno desde .env
 dotenv.config();
@@ -37,7 +38,7 @@ const api = express();
 /**
  * Servir archivos estáticos desde el directorio "public"
  */
-api.use(express.static('public'));
+api.use(express.static(path.join(__dirname, '../public')));
 
 /**
  * middleware que solo analiza JSON y solo observa

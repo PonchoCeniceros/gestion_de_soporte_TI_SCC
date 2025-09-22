@@ -1,11 +1,11 @@
 # Etapa 1: Construcción
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 # Establece el directorio de trabajo
 WORKDIR /usr/src/app
 
 # Copia los archivos de configuración de paquetes y las dependencias
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # Instala las dependencias
 RUN yarn install
@@ -19,21 +19,20 @@ COPY .env ./
 RUN yarn build
 
 # Etapa 2: Imagen final
-FROM node:18
+FROM node:20
 
 # Establece el directorio de trabajo
 WORKDIR /usr/src/app
 
 # Copia solo los archivos necesarios desde la etapa de construcción
 COPY --from=builder /usr/src/app/dist ./dist
-COPY package.json yarn.lock tsconfig.json ./
+COPY package.json tsconfig.json ./
 
 # Instala solo las dependencias de producción
 RUN yarn install --production
 
 # Expone el puerto en el que la aplicación escucha
-EXPOSE 3000
+EXPOSE 3008
 
 # Comando para ejecutar la aplicación
 CMD ["node", "-r", "tsconfig-paths/register", "dist/index.js", "--project", "/usr/src/app/tsconfig.json"]
-

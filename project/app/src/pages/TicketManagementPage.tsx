@@ -6,7 +6,7 @@ import TicketApiAdapter from '../features/tickets/services/api';
 import ServiceApiAdapter from '../features/services/services/api';
 import TicketsTable from '../features/tickets/components/TicketsTable';
 import Pagination from '../components/ui/Pagination';
-import useSession from '../store/session'; // Import useSession
+// import useSession from '../store/session'; // Import useSession
 import TicketDetailModal from '../components/ui/TicketDetailModal';
 
 export default function TicketManagementPage() {
@@ -27,9 +27,11 @@ export default function TicketManagementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
+  console.log(isModalOpen)
+
   const ticketApi = TicketApiAdapter();
   const serviceApi = ServiceApiAdapter();
-  const { session } = useSession(); // Get session
+  // const { session } = useSession(); // Get session
 
   // Fetch services once on component mount
   useEffect(() => {

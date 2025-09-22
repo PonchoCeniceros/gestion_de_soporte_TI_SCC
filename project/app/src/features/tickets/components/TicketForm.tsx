@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TicketPriority, Client, Service } from '../types';
+import { ClientClass } from '../../clients/types'; // Import ClientClass
 import TicketApiAdapter from '../services/api';
 import ClientApiAdapter from '../../clients/services/api';
 import ServiceApiAdapter from '../../services/services/api';
 
-export default function TicketForm() {
+interface Props {
+  clientClassFilter?: ClientClass;
+}
+
+export default function TicketForm({ clientClassFilter }: Props) {
   const navigate = useNavigate();
   const [clients, setClients] = useState<Client[]>([]);
   const [services, setServices] = useState<Service[]>([]);
@@ -30,7 +35,17 @@ export default function TicketForm() {
       try {
         const clientResponse = await clientApi.getAll();
         if (clientResponse.isOk && clientResponse.data) {
-          setClients(clientResponse.data);
+          let filteredClients = clientResponse.data;
+          if (clientClassFilter) {
+            filteredClients = clientResponse.data.filter(client => client.class === clientClassFilter);
+          }
+          setClients(filteredClients);
+
+          // Pre-select the first client if a filter is applied and there's only one client
+          if (clientClassFilter && filteredClients.length === 1) {
+            setFormData(prev => ({ ...prev, client: filteredClients[0]._id }));
+          }
+
         } else {
           setError(clientResponse.message);
         }
@@ -47,7 +62,7 @@ export default function TicketForm() {
     };
 
     fetchData();
-  }, []);
+  }, [clientClassFilter]); // Re-run effect when clientClassFilter changes
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -162,6 +177,7 @@ export default function TicketForm() {
             onChange={handleChange}
             className={inputStyle}
             required
+            disabled={clientClassFilter && clients.length === 1} // Disable if pre-selected
           >
             <option value="" disabled>Seleccione un cliente</option>
             {clients.map(client => (
@@ -227,7 +243,7 @@ export default function TicketForm() {
       </div>
       <button
         type="submit"
-        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        className="w-full text-white bg-black hover:bg-black focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Crear Ticket
       </button>

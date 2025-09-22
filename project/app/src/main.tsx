@@ -9,9 +9,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from './features/auth/components/LoginForm';
 import Sidebar from './components/sidebar';
 import TicketManagementPage from './pages/TicketManagementPage';
-// import ClientsManagementPage from './pages/ClientsManagementPage';
+import ClientsManagementPage from './pages/ClientsManagementPage';
 import CreateTicketPage from './pages/CreateTicketPage';
-import CreatingTicketPage from './pages/CreatingTicketPage';
+import CreateExternalTicketPage from './pages/CreateExternalTicketPage';
+import CreateInternalTicketPage from './pages/CreateInternalTicketPage';
+import CreateBranchTicketPage from './pages/CreateBranchTicketPage';
+import AppointmentSchedulingPage from './pages/AppointmentSchedulingPage';
+import ServicesManagementPage from './pages/ServicesManagementPage';
 
 /**
  *
@@ -21,11 +25,15 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/solicitudes" element={<CreatingTicketPage />} />
+        <Route path="tickets/new/external" element={<CreateExternalTicketPage />} />
+        <Route path="tickets/new/internal" element={<CreateInternalTicketPage />} />
+        <Route path="tickets/new/branch" element={<CreateBranchTicketPage />} />
+        <Route path="appointments" element={<AppointmentSchedulingPage />} />
         <Route path="/" element={<Sidebar />}>
           <Route path="tickets" element={<TicketManagementPage />} />
           <Route path="tickets/new" element={<CreateTicketPage />} />
-          {/* <Route path="clients" element={<ClientsManagementPage />} /> */}
+          <Route path="clients" element={<ClientsManagementPage />} />
+          <Route path="services" element={<ServicesManagementPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,74 +1,74 @@
 import { useState, useEffect } from 'react';
-import { Client } from '../features/clients/types';
-import ClientApiAdapter from '../features/clients/services/api';
-import ClientsTable from '../features/clients/components/ClientsTable';
-import ClientForm from '../features/clients/components/ClientForm';
+import { Service } from '../features/services/types';
+import ServiceApiAdapter from '../features/services/services/api';
+import ServicesTable from '../features/services/components/ServicesTable';
+import ServiceForm from '../features/services/components/ServiceForm';
 
-export default function ClientsManagementPage() {
-  const [clients, setClients] = useState<Client[]>([]);
+export default function ServicesManagementPage() {
+  const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingClient, setEditingClient] = useState<Client | null>(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
 
-  const clientApi = ClientApiAdapter();
+  const serviceApi = ServiceApiAdapter();
 
   useEffect(() => {
-    fetchClients();
+    fetchServices();
   }, []);
 
-  const fetchClients = async () => {
+  const fetchServices = async () => {
     setIsLoading(true);
     try {
-      const response = await clientApi.getAll();
+      const response = await serviceApi.getAll();
       if (response.isOk && response.data) {
-        setClients(response.data);
+        setServices(response.data);
       } else {
         setError(response.message);
       }
     } catch (err) {
-      setError('Ocurrió un error inesperado al cargar los clientes.');
+      setError('Ocurrió un error inesperado al cargar los servicios.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSave = async (clientData: Omit<Client, '_id'>) => {
+  const handleSave = async (serviceData: Omit<Service, '_id'>) => {
     setError(null);
     try {
-      const response = editingClient
-        ? await clientApi.update(editingClient._id, clientData)
-        : await clientApi.create(clientData);
+      const response = editingService
+        ? await serviceApi.update(editingService._id, serviceData)
+        : await serviceApi.create(serviceData);
 
       if (response.isOk) {
-        fetchClients(); // Re-fetch to show the latest data
+        fetchServices(); // Re-fetch to show the latest data
         setIsModalOpen(false);
-        setEditingClient(null);
+        setEditingService(null);
       } else {
         setError(response.message);
       }
     } catch (err) {
-      setError('Ocurrió un error inesperado al guardar el cliente.');
+      setError('Ocurrió un error inesperado al guardar el servicio.');
     }
   };
 
-  const handleEdit = (client: Client) => {
-    setEditingClient(client);
+  const handleEdit = (service: Service) => {
+    setEditingService(service);
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (client: Client) => {
-    if (window.confirm(`¿Estás seguro de que quieres eliminar a ${client.name}?`)) {
+  const handleDelete = async (service: Service) => {
+    if (window.confirm(`¿Estás seguro de que quieres eliminar a ${service.name}?`)) {
       setError(null);
       try {
-        const response = await clientApi.delete(client._id);
+        const response = await serviceApi.delete(service._id);
         if (response.isOk) {
-          fetchClients(); // Re-fetch
+          fetchServices(); // Re-fetch
         } else {
           setError(response.message);
         }
       } catch (err) {
-        setError('Ocurrió un error inesperado al eliminar el cliente.');
+        setError('Ocurrió un error inesperado al eliminar el servicio.');
       }
     }
   };
@@ -76,15 +76,15 @@ export default function ClientsManagementPage() {
   return (
     <div className='h-screen w-full bg-cover bg-center flex flex-col p-10'>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold">Gestión de Clientes</h1>
+        <h1 className="text-3xl font-bold">Gestión de Servicios</h1>
         <button
           onClick={() => {
-            setEditingClient(null);
+            setEditingService(null);
             setIsModalOpen(true);
           }}
           className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl"
         >
-          Crear Cliente
+          Crear Servicio
         </button>
       </div>
 
@@ -93,7 +93,7 @@ export default function ClientsManagementPage() {
         {error && <p className="text-red-500 text-center">{error}</p>}
         {!isLoading && !error && (
           <div className="flex-1 overflow-y-auto">
-            <ClientsTable clients={clients} onEdit={handleEdit} onDelete={handleDelete} />
+            <ServicesTable services={services} onEdit={handleEdit} onDelete={handleDelete} />
           </div>
         )}
       </div>
@@ -101,13 +101,13 @@ export default function ClientsManagementPage() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
           <div className="relative mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
-            <h2 className="text-2xl font-bold mb-4">{editingClient ? 'Editar Cliente' : 'Crear Cliente'}</h2>
-            <ClientForm
-              client={editingClient}
+            <h2 className="text-2xl font-bold mb-4">{editingService ? 'Editar Servicio' : 'Crear Servicio'}</h2>
+            <ServiceForm
+              service={editingService}
               onSave={handleSave}
               onCancel={() => {
                 setIsModalOpen(false);
-                setEditingClient(null);
+                setEditingService(null);
               }}
             />
           </div>

@@ -1,6 +1,7 @@
 import useSidebar from "./useSidebar";
 import { Link, Outlet, Navigate } from "react-router-dom";
-import { FiChevronLeft, FiChevronRight, FiTag, FiGrid } from 'react-icons/fi'; // , FiUsers
+import { FiChevronLeft, FiChevronRight, FiTag, FiUsers, FiGrid } from 'react-icons/fi';
+import { MdOutlineRoomService } from 'react-icons/md';
 
 /**
  *
@@ -31,7 +32,10 @@ export default function Sidebar() {
               {isMinimized ? <FiTag className={iconStyle} /> : 'Gestión de Tickets'}
             </Link>
             <Link className={sectionStyle} to="/clients">
-              {/* isMinimized ? <FiUsers className={iconStyle} /> : 'Clientes' */}
+              {isMinimized ? <FiUsers className={iconStyle} /> : 'Clientes'}
+            </Link>
+            <Link className={sectionStyle} to="/services">
+              {isMinimized ? <MdOutlineRoomService className={iconStyle} /> : 'Servicios'}
             </Link>
           </nav>
         </div>

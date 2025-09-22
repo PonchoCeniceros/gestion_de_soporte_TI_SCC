@@ -1,4 +1,4 @@
-import Client from '../domain/client';
+import Client, { ClientClass } from '../domain/client';
 import { Schema, model, Document } from 'mongoose';
 
 interface ClientModel extends Client, Document {}
@@ -7,6 +7,7 @@ const clientSchema = new Schema<ClientModel>({
   name: { type: String, required: true, unique: true },
   contactPerson: { type: String, required: true },
   contactEmail: { type: String, required: true },
+  class: { type: String, required: true, enum: Object.values(ClientClass) },
 });
 
 const clientModel = model<ClientModel>('Client', clientSchema);

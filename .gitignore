@@ -39,3 +39,6 @@ package-lock.json
 
 # TypeScript build info
 tsconfig.tsbuildinfo
+
+# archivos de docker
+project/api/docker-compose.yml

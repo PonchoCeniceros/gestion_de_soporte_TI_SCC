@@ -82,7 +82,7 @@ const swaggerUiOptions = {
   customSiteTitle: `${process.env.TITLE} | Docs`
 };
 
-api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions));
+api.use(`/${process.env.VERSION}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions));
 
 /**
  * router general de la API:

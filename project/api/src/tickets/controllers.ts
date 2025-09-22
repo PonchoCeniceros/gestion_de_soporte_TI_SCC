@@ -258,9 +258,11 @@ export async function addAttachment(req: Request, res: Response) {
     const compressedPath = path.join('public/uploads', compressedFilename);
 
     // Comprimir la imagen usando sharp
-    await sharp(originalPath)
+    const outputBuffer = await sharp(originalPath)
       .webp({ quality: 80 }) // Comprimir a WebP con 80% de calidad
-      .toFile(compressedPath);
+      .toBuffer();
+
+    await fs.promises.writeFile(compressedPath, outputBuffer);
 
     // Eliminar el archivo original subido por multer
     fs.unlinkSync(originalPath);
